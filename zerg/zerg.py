@@ -10,6 +10,7 @@ class Zerg:
 
     def __init__(self, hosts, username, key, max_threads=2):
         self.hosts = hosts
+        self.username = username
         self.key = paramiko.RSAKey.from_private_key_file(key)
         self.pool = Pool(max_threads)
         self.connections = []
@@ -17,7 +18,7 @@ class Zerg:
     def _connect(self, host):
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.WarningPolicy())
-        client.connect(host, username=username, pkey=self.key)
+        client.connect(host, username=self.username, pkey=self.key)
         self.connections.append(client)
 
     def connect(self):
